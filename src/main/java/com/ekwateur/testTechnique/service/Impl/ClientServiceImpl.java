@@ -1,12 +1,16 @@
 package com.ekwateur.testTechnique.service.Impl;
 
+import com.ekwateur.testTechnique.dao.models.Bill;
 import com.ekwateur.testTechnique.dao.models.Client;
 import com.ekwateur.testTechnique.dao.models.ParticulierClient;
 import com.ekwateur.testTechnique.dao.models.ProClient;
 import com.ekwateur.testTechnique.dao.repository.ClientRepository;
 import com.ekwateur.testTechnique.service.ClientService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Random;
 
 @Service

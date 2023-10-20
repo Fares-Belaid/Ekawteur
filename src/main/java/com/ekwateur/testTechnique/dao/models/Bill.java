@@ -1,10 +1,13 @@
 package com.ekwateur.testTechnique.dao.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -23,4 +26,6 @@ public class Bill {
         @ManyToOne
         @JoinColumn(name = "client_id")
         private Client client;
+        @JsonFormat(pattern = "MM/dd/yyyy")
+        private LocalDate date;
 }
