@@ -56,7 +56,7 @@ public class BillController {
         return ResponseEntity.ok(billService.addBillForParticularSecondSolution(particulierClient, secondParticularBillDto.getDate()));
     }
     @PostMapping(value = "/second-pro")
-    public ResponseEntity<Bill> addBillForParticular(@RequestBody SecondProBillDto secondProBillDto) {
+    public ResponseEntity<Bill> addBillForPro(@RequestBody SecondProBillDto secondProBillDto) {
         ProClient proClient = secondProBillDto.getProClient();
         return ResponseEntity.ok(billService.addBillForProSecondSolution(proClient, secondProBillDto.getDate()));
     }

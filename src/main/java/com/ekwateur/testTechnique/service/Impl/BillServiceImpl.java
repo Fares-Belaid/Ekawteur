@@ -26,6 +26,9 @@ public class BillServiceImpl implements BillService {
     public Bill addBillForParticular(ParticulierClient particulierClient, Bill bill) {
         Client client = clientRepository.findByClientReference(particulierClient.getClientReference());
         if (client != null) {
+            if (checkExisitngBill(client.getId(), bill.getDate().getMonthValue(), bill.getDate().getYear())){
+                throw new IllegalArgumentException("ALready have a bill for that month and year");
+            }else {
             double pricePerKwh;
             switch (bill.getEnergyType()) {
                 case GAS:
@@ -40,13 +43,19 @@ public class BillServiceImpl implements BillService {
             bill.setClient(client);
             bill.setAmount(bill.getQuantity() * pricePerKwh);
             return billRepository.save(bill);
+            }
         }else throw new IllegalArgumentException("Client not found");
     }
-
+    private Boolean checkExisitngBill(Long clientId, int month, int year){
+        return billRepository.existsBillForClientOnMonthAndYear(clientId, month, year);
+    }
     @Override
     public Bill addBillForPro(ProClient proClient, Bill bill) {
        Client client = clientRepository.findByClientReference(proClient.getClientReference());
         if (client != null){
+            if (checkExisitngBill(client.getId(), bill.getDate().getMonthValue(), bill.getDate().getYear())){
+                throw new IllegalArgumentException("ALready have a bill for that month and year");
+            }else {
         double pricePerKwh = 0;
         if (proClient.getCa() >= 1000000) {
             switch (bill.getEnergyType()) {
@@ -78,6 +87,7 @@ public class BillServiceImpl implements BillService {
             bill.setAmount(bill.getQuantity() * pricePerKwh);
             }
             return billRepository.save(bill);
+            }
         }else throw new IllegalArgumentException("Client not found");
     }
 
@@ -90,6 +100,7 @@ public class BillServiceImpl implements BillService {
         if (client != null) {
             try {
                 Bill bill = billRepository.findBillByClientAndDate(client.getId(), date);
+
                 if (bill != null) {
                     switch (bill.getEnergyType()) {
                         case GAS:
